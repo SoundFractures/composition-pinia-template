@@ -1,23 +1,31 @@
 <script setup lang="ts">
-  import { ref, computed, inject } from '@nuxtjs/composition-api'
-  import useAnanas from '@/store'
+  // import memberApi from '@/utils/api/Competition/Meet.api'
+  // const api = memberApi()
 
-  const ananas = useAnanas()
-  const api = inject('globalKey')
-  console.log('global', api)
-  const count = ref<number>(0)
-  const handleIncrementCount = () => {
-    ananas.counter.state.count++
+  import { useContext, ref } from '@nuxtjs/composition-api'
+  const { $api } = useContext()
+  const loading = ref<boolean>(false)
+
+  const handleGetMeets = async () => {
+    loading.value = true
+    await $api.competition.meet
+      .list()
+      .then((data) => {
+        console.log(data)
+      })
+      .finally(() => {
+        setTimeout(() => {
+          loading.value = false
+        }, 1000)
+      })
   }
-
-  const doubleValue = computed(() => ananas.counter.computed.doubleCount)
 </script>
 
 <template>
   <v-row>
     <v-col class="text-center">
-      <v-btn color="primary" @click="handleIncrementCount()">
-        {{ doubleValue }}
+      <v-btn color="primary" :loading="loading" @click="handleGetMeets">
+        Get meets
       </v-btn>
     </v-col>
   </v-row>

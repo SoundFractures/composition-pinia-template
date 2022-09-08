@@ -1,7 +1,12 @@
-import { onGlobalSetup, provide } from '@nuxtjs/composition-api'
+import { Plugin } from '@nuxt/types'
+import { onGlobalSetup, useContext, provide } from '@nuxtjs/composition-api'
+import { api } from '@/utils/api'
 
-export default () => {
+const plugin: Plugin = (_ctx, inject) => {
   onGlobalSetup(() => {
-    provide('globalKey', true)
+    const { $axios } = useContext()
+    inject('api', api($axios))
   })
 }
+
+export default plugin
