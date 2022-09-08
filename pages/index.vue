@@ -1,32 +1,41 @@
 <script setup lang="ts">
-  // import memberApi from '@/utils/api/Competition/Meet.api'
-  // const api = memberApi()
-
   import { useContext, ref } from '@nuxtjs/composition-api'
-  const { $api } = useContext()
-  const loading = ref<boolean>(false)
+  import { Meet } from '~/utils/models/Competition/Meet.model'
 
+  const { $api, $store } = useContext()
+
+  const loading = ref<boolean>(false)
+  const items = ref<Meet[]>([])
   const handleGetMeets = async () => {
     loading.value = true
     await $api.competition.meet
       .list()
       .then((data) => {
-        console.log(data)
+        $store().counter.handleIncrement()
+        items.value = data
       })
       .finally(() => {
-        setTimeout(() => {
-          loading.value = false
-        }, 1000)
+        loading.value = false
       })
   }
 </script>
 
 <template>
-  <v-row>
-    <v-col class="text-center">
+  <div>
+    <v-row justify="start" no-gutters>
       <v-btn color="primary" :loading="loading" @click="handleGetMeets">
-        Get meets
+        Get meets {{ $store().counter.count }}
       </v-btn>
-    </v-col>
-  </v-row>
+    </v-row>
+    <v-list>
+      <v-list-item
+        v-for="item in items"
+        :key="item.id"
+        class="primary ma-2"
+        dense
+      >
+        <v-list-item-title>{{ item.name }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </div>
 </template>

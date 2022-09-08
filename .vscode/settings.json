@@ -1,5 +1,7 @@
 {
   "todo-tree.tree.showCountsInTree": true,
   "todo-tree.tree.showBadges": true,
-  "todo-tree.tree.disableCompactFolders": false
+  "todo-tree.tree.disableCompactFolders": false,
+  "vetur.validation.template": true,
+  "vetur.validation.script": false
 }

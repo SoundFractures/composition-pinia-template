@@ -18,11 +18,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/api.ts' }],
+  plugins: [{ src: '@/plugins/api.ts' }, { src: '@/plugins/store.ts' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
-
+  loading: false,
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
@@ -58,7 +58,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,

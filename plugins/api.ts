@@ -1,5 +1,5 @@
 import { Plugin } from '@nuxt/types'
-import { onGlobalSetup, useContext, provide } from '@nuxtjs/composition-api'
+import { onGlobalSetup, useContext } from '@nuxtjs/composition-api'
 import { api } from '@/utils/api'
 
 const plugin: Plugin = (_ctx, inject) => {

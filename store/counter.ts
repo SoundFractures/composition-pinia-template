@@ -1,18 +1,22 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from '@nuxtjs/composition-api'
 export const useCounterStore = defineStore('counter', () => {
+  // State
   const count = ref(5)
-  const doubleCount = computed(() => count.value * 2)
-  const increment = () => {
+
+  // Computed -> Prefix with 'return'
+  const returnDoubleCount = computed(() => count.value * 2)
+
+  // Methods -> Prefix with 'handle'
+  const handleIncrement = () => {
     count.value++
   }
-  const subtract = () => {
-    count.value--
-  }
+
+  // TODO | Find out how to do actions -> async stuff from api to store
 
   return {
-    state: { count },
-    computed: { doubleCount },
-    methods: { increment, subtract },
+    count,
+    returnDoubleCount,
+    handleIncrement,
   }
 })
