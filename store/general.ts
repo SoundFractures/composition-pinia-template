@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from '@nuxtjs/composition-api'
-export const useCounterStore = defineStore('counter', () => {
+export const useGeneralStore = defineStore('counter', () => {
   // State
   const count = ref(5)
 

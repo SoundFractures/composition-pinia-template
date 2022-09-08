@@ -1,9 +1,9 @@
-import { useCounterStore } from '@/store/counter'
+import { useGeneralStore } from '~/store/general'
 
 const useStore = () => {
-  const counter = useCounterStore()
+  const general = useGeneralStore()
   return {
-    counter,
+    general,
   }
 }
 // export type Pini = ReturnType<typeof useStore>

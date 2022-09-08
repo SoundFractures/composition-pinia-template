@@ -11,7 +11,7 @@
     await $api.competition.meet
       .list()
       .then((data) => {
-        $store().counter.handleIncrement()
+        $store().general.handleIncrement()
         items.value = data
       })
       .finally(() => {
@@ -24,7 +24,7 @@
   <div>
     <v-row justify="start" no-gutters>
       <v-btn color="primary" :loading="loading" @click="handleGetMeets">
-        Get meets {{ $store().counter.count }}
+        Get meets {{ $store().general.count }}
       </v-btn>
     </v-row>
     <v-list>
