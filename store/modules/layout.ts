@@ -13,27 +13,49 @@ import { State as RootState } from '@/store'
 
 // TYPE | STATE
 export type State = {
-  user: number
+  loading: {
+    app: boolean
+    view: boolean
+  }
+  navigation: {
+    drawer: boolean
+  }
 }
 
 // Actual State
 const state: State = {
-  user: 0,
+  loading: {
+    app: false,
+    view: false,
+  },
+  navigation: {
+    drawer: true,
+  },
 }
 // ENUM | MUTATIONS
 export enum MutationTypes {
-  SET_USER = 'SET_USER',
+  LAYOUT_SET_LOADING_APP = 'LAYOUT_SET_LOADING_APP',
+  LAYOUT_SET_LOADING_VIEW = 'LAYOUT_SET_LOADING_VIEW',
+  LAYOUT_SET_NAVIGATION_DRAWER = 'LAYOUT_SET_NAVIGATION_DRAWER',
 }
 
 // Mutation contracts
 type Mutations<S = State> = {
-  [MutationTypes.SET_USER](state: S, payload: number): void
+  [MutationTypes.LAYOUT_SET_LOADING_APP](state: S, payload: boolean): void
+  [MutationTypes.LAYOUT_SET_LOADING_VIEW](state: S, payload: boolean): void
+  [MutationTypes.LAYOUT_SET_NAVIGATION_DRAWER](state: S, payload: boolean): void
 }
 
 // Define mutations
 const mutations: MutationTree<State> & Mutations = {
-  [MutationTypes.SET_USER](state: State, payload: number) {
-    state.user = payload
+  [MutationTypes.LAYOUT_SET_LOADING_APP](state: State, payload: boolean) {
+    state.loading.app = payload
+  },
+  [MutationTypes.LAYOUT_SET_LOADING_VIEW](state: State, payload: boolean) {
+    state.loading.view = payload
+  },
+  [MutationTypes.LAYOUT_SET_NAVIGATION_DRAWER](state: State, payload: boolean) {
+    state.navigation.drawer = payload
   },
 }
 
@@ -89,7 +111,7 @@ export type Store<S = State> = Omit<
   ): ReturnType<Actions[K]>
 }
 
-export const GeneralModule: Module<State, RootState> = {
+export const LayoutModule: Module<State, RootState> = {
   state,
   mutations,
   actions,

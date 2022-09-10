@@ -16,7 +16,7 @@ export default {
   css: ['@/assets/global.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '@/plugins/layout.ts', ssr: true }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -26,7 +26,7 @@ export default {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
+    ['@nuxtjs/vuetify', { iconfont: 'mdi' }],
     '@nuxtjs/i18n',
     '@nuxtjs/composition-api/module',
   ],
@@ -39,8 +39,9 @@ export default {
   ],
   auth: {
     plugins: [
-      { src: '@/plugins/api.ts', ssr: true },
-      { src: '@/plugins/store.ts', ssr: true },
+      { src: '@/plugins/init.ts', ssr: true },
+      // { src: '@/plugins/api.ts', ssr: true },
+      // { src: '@/plugins/store.ts', ssr: true },
     ],
     redirect: {
       login: '/login',

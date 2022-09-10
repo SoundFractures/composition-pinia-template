@@ -1,5 +1,5 @@
+// eslint-disable-next-line import/named
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
-// import { NumberNull, StringNull } from '~/utils/models'
 
 export interface ListParams {
   member?: number

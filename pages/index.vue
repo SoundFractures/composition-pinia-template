@@ -1,34 +1,19 @@
 <script lang="ts">
-  import {
-    useContext,
-    ref,
-    computed,
-    defineComponent,
-  } from '@nuxtjs/composition-api'
+  import { useContext, ref, defineComponent } from '@nuxtjs/composition-api'
   // import { useStore } from 'vuex'
-  import { Meet } from '~/utils/models/Competition/Meet.model'
-  import { Mutations } from '~/store'
+  import { Meet } from '~/lib/models/Competition/Meet.model'
   export default defineComponent({
     auth: false,
     setup() {
-      const { $api, $vuex } = useContext()
+      const { $api } = useContext()
 
       const loading = ref<boolean>(false)
       const items = ref<Meet[]>([])
-      const userCount = computed({
-        get() {
-          return $vuex.state.general.user
-        },
-        set(value: number) {
-          $vuex.commit(Mutations.general.SET_USER, value)
-        },
-      })
       const handleGet = async () => {
         loading.value = true
         await $api.competition.meet
           .list()
           .then((data) => {
-            userCount.value = userCount.value + 1
             items.value = data
           })
           .finally(() => {
@@ -37,7 +22,6 @@
       }
       return {
         handleGet,
-        userCount,
         items,
         loading,
       }
@@ -49,7 +33,7 @@
   <div>
     <v-row justify="start" no-gutters>
       <v-btn color="primary" :loading="loading" @click="handleGet">
-        {{ $i18n.t('home') }} {{ userCount }}
+        {{ $i18n.t('home') }}
       </v-btn>
     </v-row>
     <v-list>

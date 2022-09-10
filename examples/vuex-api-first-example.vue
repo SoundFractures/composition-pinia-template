@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
   import { useContext, ref, computed } from '@nuxtjs/composition-api'
   // import { useStore } from 'vuex'
-  import { Meet } from '~/utils/models/Competition/Meet.model'
+  import { Meet } from '~/lib/models/Competition/Meet.model'
   import { Mutations } from '~/store'
   const { $api, $vuex } = useContext()
 
@@ -47,4 +47,4 @@
       </v-list-item>
     </v-list>
   </div>
-</template>
+</template> -->

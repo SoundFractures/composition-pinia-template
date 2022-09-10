@@ -1,5 +1,6 @@
+// eslint-disable-next-line import/named
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
-import meetApi from '~/utils/api/Competition/Meet.api'
+import meetApi from '~/lib/api/Competition/Meet.api'
 
 export const api = ($axios?: NuxtAxiosInstance) => {
   return {
