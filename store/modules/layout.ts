@@ -10,6 +10,7 @@ import {
   DispatchOptions,
 } from 'vuex'
 import { State as RootState } from '@/store'
+import { COLORS, Snackbar } from '~/lib/models'
 
 // TYPE | STATE
 export type State = {
@@ -20,6 +21,7 @@ export type State = {
   navigation: {
     drawer: boolean
   }
+  snackbar: Snackbar
 }
 
 // Actual State
@@ -29,7 +31,12 @@ const state: State = {
     view: false,
   },
   navigation: {
-    drawer: true,
+    drawer: false,
+  },
+  snackbar: {
+    message: '',
+    color: COLORS.SUCCESS,
+    timeout: 1500,
   },
 }
 // ENUM | MUTATIONS
@@ -37,6 +44,7 @@ export enum MutationTypes {
   LAYOUT_SET_LOADING_APP = 'LAYOUT_SET_LOADING_APP',
   LAYOUT_SET_LOADING_VIEW = 'LAYOUT_SET_LOADING_VIEW',
   LAYOUT_SET_NAVIGATION_DRAWER = 'LAYOUT_SET_NAVIGATION_DRAWER',
+  LAYOUT_SET_SNACKBAR = 'LAYOUT_SET_SNACKBAR',
 }
 
 // Mutation contracts
@@ -44,6 +52,7 @@ type Mutations<S = State> = {
   [MutationTypes.LAYOUT_SET_LOADING_APP](state: S, payload: boolean): void
   [MutationTypes.LAYOUT_SET_LOADING_VIEW](state: S, payload: boolean): void
   [MutationTypes.LAYOUT_SET_NAVIGATION_DRAWER](state: S, payload: boolean): void
+  [MutationTypes.LAYOUT_SET_SNACKBAR](state: S, payload: Snackbar): void
 }
 
 // Define mutations
@@ -56,6 +65,9 @@ const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.LAYOUT_SET_NAVIGATION_DRAWER](state: State, payload: boolean) {
     state.navigation.drawer = payload
+  },
+  [MutationTypes.LAYOUT_SET_SNACKBAR](state: State, payload: Snackbar) {
+    state.snackbar = payload
   },
 }
 

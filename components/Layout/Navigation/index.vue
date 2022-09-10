@@ -11,15 +11,15 @@
     setup() {
       const { $vuex, $layout } = useContext()
 
-      const returnDrawer = computed(() => $vuex.state.layout.navigation.drawer)
-      const returnShowNavigation = computed(() => $layout.navigation.show())
+      const drawer = computed(() => $vuex.state.layout.navigation.drawer)
+      const showNavigation = computed(() => $layout.navigation.show())
 
       const handleDrawer = (value: boolean) => {
         $vuex.commit(Mutations.layout.LAYOUT_SET_NAVIGATION_DRAWER, value)
       }
       return {
-        returnDrawer,
-        returnShowNavigation,
+        drawer,
+        showNavigation,
         handleDrawer,
       }
     },
@@ -28,8 +28,8 @@
 <template>
   <v-navigation-drawer
     dark
-    :value="returnDrawer"
-    :permanent="returnShowNavigation"
+    :value="drawer"
+    :permanent="showNavigation"
     width="250"
     app
     class="primary"

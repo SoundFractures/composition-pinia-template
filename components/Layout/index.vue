@@ -4,28 +4,26 @@
     computed,
     useContext,
   } from '@nuxtjs/composition-api'
-  import { Mutations } from '~/store'
 
   export default defineComponent({
     setup() {
       const { $vuex, $layout, $i18n } = useContext()
       // Loading
-      const returnLoading = computed(() => $vuex.state.layout.loading.app)
-
+      const loading = computed(() => $vuex.state.layout.loading.app)
       // Locales
       const handleChangeLocale = async () => {
         await $layout.switchLocale($i18n.locale === 'sl' ? 'en' : 'sl')
       }
       // Navigation
-      const returnShowNavigation = computed(() => $layout.navigation.show())
+      const showNavigation = computed(() => $layout.navigation.show())
       const handleOpenDrawer = () => {
         $layout.navigation.handleDrawer()
       }
       return {
-        returnLoading,
+        loading,
         handleChangeLocale,
         handleOpenDrawer,
-        returnShowNavigation,
+        showNavigation,
       }
     },
   })
@@ -33,12 +31,12 @@
 
 <template>
   <v-app>
-    <template v-if="!returnLoading">
+    <template v-if="!loading">
       <LayoutNavigation />
       <v-app-bar flat dense height="54%" app>
         <v-row align="center" no-gutters>
           <v-app-bar-nav-icon
-            v-if="!returnShowNavigation"
+            v-if="!showNavigation"
             plain
             color="primary"
             @click="handleOpenDrawer()"
@@ -58,5 +56,6 @@
     <template v-else>
       <SharedLoading :size="75" :width="4" />
     </template>
+    <LayoutSnackbar top right transition="scroll-x-transition" />
   </v-app>
 </template>
