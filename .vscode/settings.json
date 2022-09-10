@@ -1,7 +1,6 @@
 {
-  "todo-tree.tree.showCountsInTree": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "nuxt.isNuxtApp": true,
   "todo-tree.tree.showBadges": true,
-  "todo-tree.tree.disableCompactFolders": false,
-  "vetur.validation.template": true,
-  "vetur.validation.script": false
+  "todo-tree.tree.showCountsInTree": false
 }

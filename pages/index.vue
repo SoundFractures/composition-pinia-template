@@ -1,30 +1,55 @@
-<script setup lang="ts">
-  import { useContext, ref } from '@nuxtjs/composition-api'
+<script lang="ts">
+  import {
+    useContext,
+    ref,
+    computed,
+    defineComponent,
+  } from '@nuxtjs/composition-api'
+  // import { useStore } from 'vuex'
   import { Meet } from '~/utils/models/Competition/Meet.model'
+  import { Mutations } from '~/store'
+  export default defineComponent({
+    auth: false,
+    setup() {
+      const { $api, $vuex } = useContext()
 
-  const { $api, $store } = useContext()
-
-  const loading = ref<boolean>(false)
-  const items = ref<Meet[]>([])
-  const handleGetMeets = async () => {
-    loading.value = true
-    await $api.competition.meet
-      .list()
-      .then((data) => {
-        $store().general.handleIncrement()
-        items.value = data
+      const loading = ref<boolean>(false)
+      const items = ref<Meet[]>([])
+      const userCount = computed({
+        get() {
+          return $vuex.state.general.user
+        },
+        set(value: number) {
+          $vuex.commit(Mutations.general.SET_USER, value)
+        },
       })
-      .finally(() => {
-        loading.value = false
-      })
-  }
+      const handleGet = async () => {
+        loading.value = true
+        await $api.competition.meet
+          .list()
+          .then((data) => {
+            userCount.value = userCount.value + 1
+            items.value = data
+          })
+          .finally(() => {
+            loading.value = false
+          })
+      }
+      return {
+        handleGet,
+        userCount,
+        items,
+        loading,
+      }
+    },
+  })
 </script>
 
 <template>
   <div>
     <v-row justify="start" no-gutters>
-      <v-btn color="primary" :loading="loading" @click="handleGetMeets">
-        Get meets {{ $store().general.count }}
+      <v-btn color="primary" :loading="loading" @click="handleGet">
+        {{ $i18n.t('home') }} {{ userCount }}
       </v-btn>
     </v-row>
     <v-list>

@@ -16,10 +16,7 @@ export default {
   css: ['@/assets/global.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: '@/plugins/api.ts', ssr: true },
-    { src: '@/plugins/store.ts', ssr: true },
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -30,28 +27,82 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/i18n',
     '@nuxtjs/composition-api/module',
-    '@pinia/nuxt',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // https://go.nuxtjs.dev/pwa
-    '@pinia/nuxt',
+    '@nuxtjs/auth-next',
   ],
+  auth: {
+    plugins: [
+      { src: '@/plugins/api.ts', ssr: true },
+      { src: '@/plugins/store.ts', ssr: true },
+    ],
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: '/login',
+      home: '/dashboard',
+    },
+    strategies: {
+      local: {
+        scheme: 'refresh',
+        token: {
+          property: 'access',
+          global: true,
+          type: 'Bearer',
+        },
+        user: {
+          property: false,
+          autoFetch: true,
+        },
+        refreshToken: {
+          property: 'refresh',
+          data: 'refresh',
+          maxAge: 604800,
+        },
+        endpoints: {
+          login: { url: '/accounts/auth/login/', method: 'post' },
+          refresh: { url: '/accounts/auth/refresh/', method: 'post' },
+          logout: false,
+          user: {
+            url: '/accounts/auth/user/',
+            method: 'get',
+          },
+        },
+      },
+    },
+  },
+
+  router: {
+    middleware: ['auth'],
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseUrl: '/api',
   },
 
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      lang: 'en',
+  i18n: {
+    locales: [
+      { code: 'en', iso: 'en-US', file: 'en/index.ts' },
+      { code: 'sl', iso: 'sl-SI', file: 'sl/index.ts' },
+    ],
+    defaultLocale: 'en',
+    strategy: 'no_prefix',
+    langDir: '~/locales/',
+    vueI18n: {
+      fallbackLocale: 'en',
     },
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_language',
+    },
+    parsePages: false,
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
